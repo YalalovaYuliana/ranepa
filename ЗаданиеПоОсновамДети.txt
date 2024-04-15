@@ -1,0 +1,108 @@
+let children = {
+  children: [
+    {
+      FIO: 'Ангелова Елизавета Сергеевна',
+      birthday: '12.12.2002',
+      gender: 'Ж',
+      section: 'Рисование',
+    },
+    {
+      FIO: 'Лебедева Алёна Анатольевна',
+      birthday: '01.04.2002',
+      gender: 'Ж',
+      section: 'Йога',
+    },
+  ],
+
+  sections: ['Рисование', 'Пение', 'Йога', 'Скрипка'],
+
+  addNewSection() { // Добавить новую секцию
+    let sectionName = prompt('Введите название секции:');
+    this.sections.push(sectionName);
+  },
+
+  addChildToSection() { // добавить ребёнка в секцию, изменить секцию
+    let childList = 'Введите номер ребёнка:\n';
+    this.formChildrenList().forEach((value, index) => childList += `${index + 1}. ${value} \n`);
+    let childIndex = prompt(childList) - 1;
+    let sectionList = 'Введите номер секции:\n';
+    this.sections.forEach((value, index) => sectionList += `${index + 1}. ${value} \n`);
+    let sectionIndex = prompt(sectionList) - 1;
+    this.children[childIndex].section = this.sections[sectionIndex];
+  },
+
+  addChild() { // добавить ребёнка
+    const newChild = {
+      FIO: prompt('Введите ФИО:'),
+      birthday: prompt('Введите день рождения (DD.MM.YYYY):'),
+      gender: prompt('Введите пол (Ж/М):'),
+      section: 'Не задана',
+    }
+    this.children.push(newChild);
+  },
+
+  formChildrenList(){ // сформировать список-массив детей для последующей удобной сортировки
+    let list = [];
+    this.children.forEach((value) => list.push(`${value.FIO}. СЕКЦИЯ: ${value.section}`));
+    return list;
+  },
+
+  delChild() { // удалить ребёнка
+    let list = 'Введите номер ребёнка:\n';
+    this.formChildrenList().forEach((value, index) => list += `${index + 1}. ${value} \n`);
+    let index = prompt(list) - 1;
+    this.children.splice(index, 1);
+  },
+  getChildrenList() { // вывести список детей
+    let exit = false;
+    do {
+      let list = 'СПИСОК ДЕТЕЙ:\n';
+      let option = prompt('Выберите нужный вариант: \n 0. Вернуться \n 1. Вывести список по алфавиту  \n 2. Вывести список по алфавиту в обратном порядке');
+      switch (option) {
+        case '0':
+          exit = true;
+          break;
+        case '1':
+          this.formChildrenList().sort().forEach((value, index) => list += `${index + 1}. ${value} \n`);
+          alert(list);
+          break;
+        case '2':
+          this.formChildrenList().sort().reverse().forEach((value, index) => list += `${index + 1}. ${value} \n`);
+          alert(list);
+          break;
+        default:
+          alert('Нет такого варианта');
+      }
+    } while (!exit)
+  },
+  chooseOption() { // открытие меню
+    let exit = false;
+    do {
+      let option = prompt('Выберите нужный вариант: \n 0. Выйти из программы \n 1. Добавить данные о ребёнке \n 2. Удалить данные о ребёнке \n 3. Вывести список детей \n 4. Добавить ребёнка в секцию/Изменить секцию ребёнка \n 5. Добавить новую секцию');
+      switch (option) {
+        case '0':
+          exit = true;
+          break;
+        case '1':
+          this.addChild();
+          break;
+        case '2':
+          this.delChild();
+          break;
+        case '3':
+          this.getChildrenList();
+          break;
+        case '4':
+          this.addChildToSection();
+          break;
+        case '5':
+          this.addNewSection();
+          break;
+        default:
+          alert('Нет такого варианта');
+      }
+    } while (!exit)
+  },
+}
+children.chooseOption();
+
